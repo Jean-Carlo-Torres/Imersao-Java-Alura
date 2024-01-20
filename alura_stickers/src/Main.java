@@ -1,7 +1,10 @@
+import model.GeradorDeFigurinha;
 import service.JsonParser;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -26,9 +29,16 @@ public class Main {
         System.out.println(listaDeFilmes.get(0));
 
         // exibir e manipular os dados
+        GeradorDeFigurinha gerador = new GeradorDeFigurinha();
         int contador = 1;
         for (Map<String, String> filme : listaDeFilmes) {
             System.out.println(contador++ + "# FILME");
+
+            String urlImagem = filme.get("image");
+            String titulo = filme.get("title");
+            InputStream inputStream = new URL(urlImagem).openStream();
+            gerador.cria(inputStream, titulo + ".png");
+
             System.out.println("TITULO: " + filme.get("title"));
             System.out.println("POSTER: " + filme.get("image"));
 
